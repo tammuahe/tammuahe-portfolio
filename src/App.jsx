@@ -1,20 +1,25 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { Scroll, ScrollControls } from "@react-three/drei";
-import { Interface } from "./components/interface";
+import { Interface } from "./components/Interface";
+import { useState } from "react";
+import { SectionProvider } from "./context/SectionContext";
 
 function App() {
+  const [section, setSection] = useState(0);
   return (
-    <Canvas
-      className="border"
-      shadows
-      camera={{ position: [3, 3, 3], fov: 30 }}
-    >
+    <Canvas shadows camera={{ position: [3, 3, 3], fov: 30 }}>
       <color attach="background" args={["#ececec"]} />
-      <ScrollControls pages={4} damping={0.2}>
-        <Experience />
+      <ambientLight intensity={0.5} />
+      <pointLight position={[1,1,2]} intensity={5} />
+      <ScrollControls pages={6} damping={0.15}>
+        <SectionProvider>
+          <Experience />
+        </SectionProvider>
         <Scroll html>
-          <Interface />
+          <SectionProvider>
+            <Interface />
+          </SectionProvider>
         </Scroll>
       </ScrollControls>
     </Canvas>
